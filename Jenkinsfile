@@ -3,7 +3,7 @@ def volumes = [ hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/va
 volumes += secretVolume(secretName: 'jenkins-docker-sec', mountPath: '/jenkins_docker_sec')
 podTemplate(label: 'icp-liberty-build-jenkinstest', slaveConnectTimeout: 600,
     containers: [
-        containerTemplate(name: 'jnlp', image: 'mycluster.icp:8500/default/jenkins/jnlp-slave:3.23-1'),
+        containerTemplate(name: 'jnlp', image: 'mycluster.icp:8500/default/jenkins/jnlp-slave:3.23-1', args: '${computer.jnlpmac} ${computer.name}'),
         containerTemplate(name: 'maven', image: 'mycluster.icp:8500/default/maven:3.5.4-jdk-8', ttyEnabled: true, command: 'cat'),
         containerTemplate(name: 'gradle', image: 'mycluster.icp:8500/default/gradle:4.10.1-jdk8', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'docker', image: 'mycluster.icp:8500/default/docker:17.12', ttyEnabled: true, command: 'cat'),
@@ -23,6 +23,7 @@ podTemplate(label: 'icp-liberty-build-jenkinstest', slaveConnectTimeout: 600,
           container('maven') {
             sh '''
             echo "Stage-maven: build ..."
+            whoami
             # mvn clean test install
             '''
           }
@@ -31,7 +32,7 @@ podTemplate(label: 'icp-liberty-build-jenkinstest', slaveConnectTimeout: 600,
           container('gradle') {
             sh '''
             echo "Stage-gradle: build ..."
-            
+            whoami
             '''
           }
         }
@@ -39,6 +40,7 @@ podTemplate(label: 'icp-liberty-build-jenkinstest', slaveConnectTimeout: 600,
          stage ('docker') {
           container('docker') {
             echo "Stage-docker: docker - build tag push ..."
+            whoami
             def imageTag = "mycluster.icp:8500/jenkinstest/jenkinssimpletest:${gitCommit}"
             echo "imageTag ${imageTag}"
             sh """
