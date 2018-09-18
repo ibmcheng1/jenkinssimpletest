@@ -31,6 +31,7 @@ podTemplate(label: 'icp-liberty-build-jenkinstest', slaveConnectTimeout: 600,
             cd ../
             chmod -R 777 .      
             ls -l
+            cat /etc/passwd
             # mvn clean test install
             '''
           }
