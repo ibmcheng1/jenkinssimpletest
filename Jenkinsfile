@@ -47,7 +47,6 @@ podTemplate(label: 'icp-liberty-build-jenkinstest', slaveConnectTimeout: 600, ru
          stage ('docker') {
           container('docker') {
             echo "Stage-docker: docker - build tag push ..."
-            whoami
             def imageTag = "mycluster.icp:8500/jenkinstest/jenkinssimpletest:${gitCommit}"
             echo "imageTag ${imageTag}"
             sh """
