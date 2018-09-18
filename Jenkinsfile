@@ -26,6 +26,9 @@ podTemplate(label: 'icp-liberty-build-jenkinstest', slaveConnectTimeout: 600,
             whoami
             echo "WORKSPACE: ${WORKSPACE}"
             chmod -R 777 ${WORKSPACE}
+            chmod -R 777 ../${WORKSPACE}
+            ls -l ../${WORKSPACE}
+            ls -l ${WORKSPACE}
             # mvn clean test install
             '''
           }
