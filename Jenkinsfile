@@ -24,6 +24,8 @@ podTemplate(label: 'icp-liberty-build-jenkinstest', slaveConnectTimeout: 600,
             sh '''
             echo "Stage-maven: build ..."
             whoami
+            echo "WORKSPACE: ${WORKSPACE}"
+            chmod -R 777 ${WORKSPACE}
             # mvn clean test install
             '''
           }
