@@ -1,7 +1,7 @@
 def gitCommit
 def volumes = [ hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'), hostPathVolume(mountPath: '/home/gradle/.gradle', hostPath: '/tmp/jenkins/.gradle') ]
 volumes += secretVolume(secretName: 'jenkins-docker-sec', mountPath: '/jenkins_docker_sec')
-podTemplate(label: 'icp-liberty-build-jenkinstest', slaveConnectTimeout: 600,
+podTemplate(label: 'icp-liberty-build-jenkinstest', slaveConnectTimeout: 600, runAsUser: 0, fsGroup: 0,
     containers: [
         containerTemplate(name: 'jnlp', image: 'mycluster.icp:8500/default/jenkins/jnlp-slave:3.23-1', args: '${computer.jnlpmac} ${computer.name}'),
         containerTemplate(name: 'maven', image: 'mycluster.icp:8500/default/maven:3.5.4-jdk-8', ttyEnabled: true, command: 'cat'),
