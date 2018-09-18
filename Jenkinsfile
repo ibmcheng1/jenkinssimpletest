@@ -39,8 +39,7 @@ podTemplate(label: 'icp-liberty-build-jenkinstest', slaveConnectTimeout: 600, ru
         stage ('gradle build') {
           container('gradle') {
             sh '''
-            echo "Stage-gradle: build ..."
-            whoami
+            echo "Stage-gradle: build ..."          
             '''
           }
         }
